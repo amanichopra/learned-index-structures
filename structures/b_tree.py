@@ -153,6 +153,20 @@ class BTree(object):
             while i < node.size and value > node.keys[i]:
                 i += 1
             return self.search(value, node.children[i])
+    
+    def predict(self, value, node=None):
+        if node is None:
+            node = self.root
+        if value in node.keys:
+            return node.keys[node.keys.index(value)].v
+        elif node.leaf:
+            # If we are in a leaf, there is no more to check.
+            return None
+        else:
+            i = 0
+            while i < node.size and value > node.keys[i]:
+                i += 1
+            return self.predict(value, node.children[i])
 
     """Print an level-order representation."""
     def print_order(self, visual=False):
